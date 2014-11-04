@@ -1,0 +1,28 @@
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.chartTitle {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+table#paperCountChartLegendTable {
+  width: 20%;
+}
+
+table#paperCountChartLegendTable td {
+  border-bottom: 1px solid #fff;
+}
+
+div#paperListingSearch {
+  margin-bottom: 15px;
+  width: 300px;
+}
+
+#chartInfoArea p#author {
+  margin-top: 15px;
+}
