@@ -186,7 +186,7 @@ function addPaperRow(d) {
           title = d['Topic'].trim().toLowerCase().replace(puncRegEx,'')
                 .replace(spaceRegEx,'').replace(/,/g,'').replace(/\u0020/g,'')
                 .replace('#','').replace(':','');
-      if(title.indexOf('fluxflow') > -1) console.log(title);
+
       var media = titleToMedia[title];
       if(media != undefined) {
         var pdf = media.pdf,
