@@ -65,21 +65,27 @@ for e in events:
 
 papers = filter(lambda p: p != None, papers)
 
+
 vimeo = unicode('vimeo')
 ieee = unicode('ieeexplore.ieee.org')
+titleToLinks = {}
 def convertPaperToObj(paper):
   entry = {}
   entry['title'] = paper[0]
+  titleToLinks[paper[0]] = {}
   if len(paper) > 1:
     for p in paper[1:]:
       if vimeo in p:
         entry['video'] = p
+        titleToLinks[paper[0]]['video'] = p
       elif ieee in p:
         entry['pdf'] = p
+        titleToLinks[paper[0]]['pdf'] = p
       else:
         print p
   return entry
 
+# Provides an alternative to the titleToLinks object, if desired
 paperObjs = [convertPaperToObj(p) for p in papers]
 
 print '================================='
@@ -91,7 +97,7 @@ import io
 import json
 # HUGE hattip to http://stackoverflow.com/questions/18337407
 with io.open('videos.json', 'w', encoding='utf8') as json_file:
-  data = json.dumps(paperObjs, ensure_ascii=False).encode('utf8')
+  data = json.dumps(titleToLinks, ensure_ascii=False).encode('utf8')
   try:
     json_file.write(data)
   except TypeError:
