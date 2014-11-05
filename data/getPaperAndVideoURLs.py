@@ -11,9 +11,14 @@ def unicode_csv_reader(utf8_data, dialect=csv.excel, **kwargs):
 filename = 'schedule.csv'
 reader = unicode_csv_reader(open(filename))
 
+# http://stackoverflow.com/questions/11066400 necessary for title inconsistencies
+import regex as re
+def remove_punctuation(text):
+    return re.sub(ur"\p{P}+", "", text)
+
 for r in reader:
   if r[0] in conferences and 'Papers' in r[-1] and 'Session' not in r[-1]:
-    numPapers.append(r[3])
+    numPapers.append( ''.join(remove_punctuation(r[3].strip().lower()).split()) )
 
 print 'Number of events:', len(numPapers)
 
@@ -71,16 +76,20 @@ ieee = unicode('ieeexplore.ieee.org')
 titleToLinks = {}
 def convertPaperToObj(paper):
   entry = {}
-  entry['title'] = paper[0]
-  titleToLinks[paper[0]] = {}
+  title = ''.join(remove_punctuation(paper[0].strip().lower()).split())
+  if '#' in title:
+    print title
+  title = title.replace('#','')
+  entry['title'] = title
+  titleToLinks[title] = {}
   if len(paper) > 1:
     for p in paper[1:]:
       if vimeo in p:
         entry['video'] = p
-        titleToLinks[paper[0]]['video'] = p
+        titleToLinks[title]['video'] = p
       elif ieee in p:
         entry['pdf'] = p
-        titleToLinks[paper[0]]['pdf'] = p
+        titleToLinks[title]['pdf'] = p
       else:
         print p
   return entry
@@ -92,6 +101,10 @@ print '================================='
 print 'Known papers:', len(numPapers)
 print 'Found papers:', len(paperObjs)
 
+print ''
+print 'Not found papers...'
+notFound = filter(lambda p: p['title'] not in numPapers, paperObjs)
+print [n['title'] for n in notFound]
 
 import io
 import json
