@@ -157,7 +157,7 @@ paperListingAreaHeader.append('th').text('Title');
 paperListingAreaHeader.append('th').text('Authors');
 paperListingAreaHeader.append('th').text('Room');
 paperListingAreaHeader.append('th').text('Type');
-// paperListingAreaHeader.append('th').text('PDF');
+paperListingAreaHeader.append('th').text('PDF');
 paperListingAreaHeader.append('th').text('Video');
 
 // Add an event to the schedule table
@@ -192,13 +192,13 @@ function addPaperRow(d) {
         var pdf = media.pdf,
             video = media.video;
 
-        // if(pdf != undefined) thisEl.append('td').append('a').attr('href', pdf).html(pdfIcon)
-        // else thisEl.append('td').text('');
+        if(pdf != undefined) thisEl.append('td').append('a').attr('href', pdf).html(pdfIcon)
+        else thisEl.append('td').text('');
 
         if(video != undefined) thisEl.append('td').append('a').attr('href', video).html(filmIcon);
         else thisEl.append('td').text('');
       } else {
-        // thisEl.append('td').text('');
+        thisEl.append('td').text('');
         thisEl.append('td').text('');
       }
 }
